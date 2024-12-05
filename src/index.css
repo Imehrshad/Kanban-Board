@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "Lexend";
+    src: url("./assets/fonts/Lexend-VariableFont_wght.ttf") format("truetype");
+    font-weight: 100 900;
+    font-style: normal;
+  }
+}
+
+body {
+  @apply font-lexend bg-primary dark:bg-darkPrimary box-border dark:text-white m-0 p-0;
+}
+
+@layer components {
+  .container {
+    @apply md:w-[90%] w-full;
+  }
+  .p-main-container {
+    @apply py-2 px-4;
+  }
+}
+
+/* For Webkit browsers (Chrome, Safari) */
+body::-webkit-scrollbar {
+  width: 0px;  /* Hide vertical scrollbar */
+  height: 0px; /* Hide horizontal scrollbar */
+}
+
+
+
+body {
+  overflow: auto; /* Ensure scrolling is enabled */
+}
+
+html {
+  scroll-behavior: smooth; /* Smooth scroll for user experience */
+}

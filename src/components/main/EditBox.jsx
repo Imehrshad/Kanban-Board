@@ -43,10 +43,27 @@ const EditBox = ({ editIsOpen, setEditIsOpen, editingItemId, listId }) => {
         onClick={() => setEditIsOpen(false)}
       ></motion.span>
       <motion.div
-        initial={{ opacity: 0, width: 100, height: 0 }}
-        whileInView={{ opacity: 1, width: 300, height: 300 }}
-        exit={{ opacity: 0, width: 100, height: 0 }}
-        transition={{ delay: 0.1, duration: 0.15 }}
+        initial={{ opacity: 0, width: 0, height: 0 }}
+        whileInView={{
+          opacity: [0, 0.2, 1],
+          width: [0, 50, 350],
+          height: [0, 150, 350],
+          borderRadius: [300, 10],
+          transition: {
+            type: "spring",
+            duration: 1.1,
+            delay: 0.1,
+            damping: 12,
+            staggerChildren: 0.35,
+          },
+        }}
+        exit={{
+          opacity: [100, 0, 0],
+          width: [350, 50, 0],
+          height: [350, 150, 0],
+          borderRadius: [10, 50, 100],
+          transition: { duration: 0.5, staggerChildren: 0.5 },
+        }}
         className={`fixed z-30    dark:bg-darkSecondary bg-primary rounded-lg top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2`}
       >
         <div className="w-full p-10 flex justify-center h-full items-center flex-col gap-4">

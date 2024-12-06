@@ -54,6 +54,9 @@ const cardSlice = createSlice({
         }
       });
     },
+    draggedList: (state, action) => {
+      return (state = action.payload);
+    },
     removeList: (state, action) => {
       return (state = state.filter((item) => {
         return item.id !== action.payload;
@@ -95,6 +98,13 @@ const cardSlice = createSlice({
   },
 });
 
-export const { addList, addCard, removeCard, editCard, removeList, editList } =
-  cardSlice.actions;
+export const {
+  addList,
+  addCard,
+  removeCard,
+  editCard,
+  removeList,
+  editList,
+  draggedList,
+} = cardSlice.actions;
 export default cardSlice.reducer;

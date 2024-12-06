@@ -39,3 +39,6 @@ body {
 html {
   scroll-behavior: smooth; /* Smooth scroll for user experience */
 }
+[aria-describedby="sortable-placeholder"] {
+  @apply invisible pointer-events-none h-0 overflow-hidden;
+}

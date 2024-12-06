@@ -1,16 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { delay, motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { FiMoreVertical } from "react-icons/fi";
 import { GoPlus } from "react-icons/go";
-import { MdModeEdit } from "react-icons/md";
-import { RiDeleteBinFill } from "react-icons/ri";
 import AddCard from "./AddCard";
 import { useDispatch } from "react-redux";
 import { removeCard } from "../../redux/features/cards/CardsSlice";
 import ListMenu from "./ListMenu";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import SingleCard from "./SingleCard";
+import EmptyList from "./EmptyList";
 
-const SingleList = ({ item, index, openEditDialog, openEditList }) => {
-  const [listMenu, setListMenu] = useState(false);
+const SingleList = ({
+  item,
+  index,
+  openEditDialog,
+  openEditList,
+  listMenu,
+  setListMenu,
+}) => {
+  function generateUUID() {
+    return crypto.getRandomValues(new Uint32Array(1))[0];
+  }
   const animationVariants = {
     hidden: { opacity: 0, y: 40 },
     show: (index) => ({
@@ -22,7 +35,6 @@ const SingleList = ({ item, index, openEditDialog, openEditList }) => {
     }),
     exit: { opacity: 0, y: 100, transition: { delay: 0.2, duration: 0.3 } },
   };
-
   const [openForm, setOpenForm] = useState({
     id: 0,
     isOpen: false,
@@ -34,7 +46,7 @@ const SingleList = ({ item, index, openEditDialog, openEditList }) => {
   const removeHandler = (card) => {
     dispatch(removeCard({ listId: item.id, item: { id: card.id } }));
   };
-  console.log(item.backgroundColor);
+
   return (
     <motion.div
       variants={animationVariants}
@@ -67,66 +79,42 @@ const SingleList = ({ item, index, openEditDialog, openEditList }) => {
       >
         <h3 className="font-bold text-lg">{item.listName}</h3>
         <button
-          className="p-1 cursor-pointer  dark:hover:bg-white/20  hover:bg-black/20 rounded"
-          onClick={() => setListMenu(!listMenu)}
+          className="p-1 cursor-pointer listMenu dark:hover:bg-white/20  hover:bg-black/20 rounded  "
+          onClick={(e) => {
+            e.stopPropagation();
+            setListMenu((prev) => (prev === item.id ? null : item.id));
+          }}
         >
           <FiMoreVertical className="cursor-pointer" />
         </button>
-        {listMenu && <ListMenu item={item} setListMenu={setListMenu} openEditList={openEditList} />}
+        {listMenu === item.id && (
+          <ListMenu
+            listMenu={listMenu}
+            item={item}
+            setListMenu={setListMenu}
+            openEditList={openEditList}
+          />
+        )}
       </div>
-      {item.cards.map((card) => (
-        <div
-          className={`flex justify-between w-full   p-2 rounded-md items-center ${
-            item.backgroundColor === "none"
-              ? "dark:bg-darkPrimary bg-primary "
-              : ""
-          }`}
-          style={{
-            backgroundColor:
-              item.backgroundColor != "none" ? item.secondBackgroundColor : "",
-          }}
-        >
-          <h5 className="text-sm">{card.cardTitle}</h5>
-          <div className="flex justify-center items-center gap-1">
-            <button
-              className="p-1 cursor-pointer dark:hover:bg-white/20 hover:bg-black/20 rounded"
-              onClick={() => removeHandler(card)}
-            >
-              <RiDeleteBinFill
-                className={` ${
-                  item.backgroundColor === "none"
-                    ? "text-red-700"
-                    : "brightness-50"
-                }`}
-                style={{
-                  color:
-                    item.backgroundColor === "none"
-                      ? ""
-                      : item.secondBackgroundColor,
-                }}
-              />
-            </button>
-            <button
-              onClick={() => openEditDialog(item, card)}
-              className="p-1 cursor-pointer  dark:hover:bg-white/20 rounded hover:bg-black/20 "
-            >
-              <MdModeEdit
-                className={` ${
-                  item.backgroundColor === "none"
-                    ? "text-green-700"
-                    : "brightness-50"
-                }`}
-                style={{
-                  color:
-                    item.backgroundColor === "none"
-                      ? ""
-                      : item.secondBackgroundColor,
-                }}
-              />
-            </button>
-          </div>
-        </div>
-      ))}
+      <SortableContext
+        items={item.cards.map((card) => card.id)}
+        strategy={verticalListSortingStrategy}
+      >
+        {item.cards.length === 0 ? (
+          <EmptyList listId={item.id} />
+        ) : (
+          item.cards.map((card) => (
+            <SingleCard
+              key={card.id}
+              card={card}
+              item={item}
+              openEditDialog={openEditDialog}
+              removeHandler={removeHandler}
+            />
+          ))
+        )}
+      </SortableContext>
+
       {item.id === openForm.id && openForm.isOpen ? (
         <AddCard setOpenForm={setOpenForm} openForm={openForm} item={item} />
       ) : (

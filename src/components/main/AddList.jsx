@@ -37,7 +37,7 @@ const AddList = ({ setAddListIsOpne }) => {
   const addNewList = () => {
     dispatch(
       addList({
-        id: generateUUID(),
+        id: generateUUID().toString(),
         listName: inputValue,
         cards: [],
         backgroundColor: selectedColor,

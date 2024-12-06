@@ -5,31 +5,33 @@ function generateUUID() {
 const initialState = [
   {
     id: generateUUID(),
-    listName: "untitled",
+    listName: "To Do",
     cards: [
       { id: generateUUID(), cardTitle: "some task 1", priority: "high" },
       { id: generateUUID(), cardTitle: "some task 2", priority: "low" },
     ],
-    backgroundColor: "none",
-    secondBackgroundColor: "",
+    backgroundColor: "#6A8DCC",
+    secondBackgroundColor:"#416DBE"
   },
   {
     id: generateUUID(),
-    listName: "untitled 2",
+    listName: "On goin",
     cards: [
       { id: generateUUID(), cardTitle: "some task 1", priority: "medium" },
       { id: generateUUID(), cardTitle: "some task 2", priority: "low" },
     ],
-    backgroundColor: "none",
+    backgroundColor: "#FFCA4B",
+    secondBackgroundColor:"#DAC500"
   },
   {
     id: generateUUID(),
-    listName: "untitled 2",
+    listName: "Done",
     cards: [
       { id: generateUUID(), cardTitle: "some task 1", priority: "medium" },
       { id: generateUUID(), cardTitle: "some task 2", priority: "low" },
     ],
-    backgroundColor: "none",
+    backgroundColor: "#92d479",
+    secondBackgroundColor:"#03AB59"
   },
 ];
 

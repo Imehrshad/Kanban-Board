@@ -82,7 +82,7 @@ const NavBar = () => {
         </AnimatePresence>
       )}
 
-      <h1 className="md:text-2xl text-lg font-bold">Kanban Board</h1>
+      <h1 className="md:text-2xl text-base font-bold sm:text-lg ">Kanban Board</h1>
       <div className="flex items-center md:gap-4 gap-2 flex-row-reverse">
         <ThemeButton />
         <div
@@ -101,7 +101,7 @@ const NavBar = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.5, damping: 20, type: "spring" }}
-                className="font-semibold md:text-sm text-[0.85rem]"
+                className="font-semibold md:text-sm text-[0.7rem]  whitespace-nowrap"
               >
                 Mehrshad khatibi
               </motion.div>
@@ -112,7 +112,7 @@ const NavBar = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.5, damping: 20, type: "spring" }}
-                className="font-semibold md:text-sm text-[0.85rem]"
+                className="font-semibold md:text-sm text-[0.7rem] whitespace-nowrap"
               >
                 Click for contact!
               </motion.div>

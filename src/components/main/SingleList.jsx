@@ -21,9 +21,6 @@ const SingleList = ({
   listMenu,
   setListMenu,
 }) => {
-  function generateUUID() {
-    return crypto.getRandomValues(new Uint32Array(1))[0];
-  }
   const animationVariants = {
     hidden: { opacity: 0, y: 40 },
     show: (index) => ({
@@ -33,7 +30,7 @@ const SingleList = ({
         delay: 0.1 * index,
       },
     }),
-    exit: { opacity: 0, y: 100, transition: { delay: 0.2, duration: 0.3 } },
+    exit: { opacity: 0, y: 100, transition: { delay: 0.3, duration: 0.3 } },
   };
   const [openForm, setOpenForm] = useState({
     id: 0,
@@ -56,7 +53,7 @@ const SingleList = ({
       exit="exit"
       custom={index}
       key={item.id}
-      className={`  p-4 md:basis-[24%] w-full rounded-md flex flex-col justify-start items-center gap-2  ${
+      className={`  p-4 lg:basis-[24%] md:basis-[31%] w-full rounded-md flex flex-col justify-start items-center gap-2  ${
         item.backgroundColor === "none"
           ? "dark:bg-darkSecondary bg-secondary"
           : ""

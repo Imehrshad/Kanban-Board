@@ -138,7 +138,7 @@ const MainContainer = () => {
         <AnimatePresence>
           {state.map((item, index) => (
             <SingleList
-              key={index}
+              key={item.id}
               item={item}
               index={index}
               openEditDialog={openEditDialog}

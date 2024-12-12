@@ -11,7 +11,7 @@ const initialState = [
       { id: generateUUID(), cardTitle: "some task 2", priority: "low" },
     ],
     backgroundColor: "#6A8DCC",
-    secondBackgroundColor:"#416DBE"
+    secondBackgroundColor: "#416DBE",
   },
   {
     id: generateUUID(),
@@ -21,7 +21,7 @@ const initialState = [
       { id: generateUUID(), cardTitle: "some task 2", priority: "low" },
     ],
     backgroundColor: "#FFCA4B",
-    secondBackgroundColor:"#DAC500"
+    secondBackgroundColor: "#DAC500",
   },
   {
     id: generateUUID(),
@@ -31,7 +31,7 @@ const initialState = [
       { id: generateUUID(), cardTitle: "some task 2", priority: "low" },
     ],
     backgroundColor: "#92d479",
-    secondBackgroundColor:"#03AB59"
+    secondBackgroundColor: "#03AB59",
   },
 ];
 
@@ -65,10 +65,14 @@ const cardSlice = createSlice({
       }));
     },
     addCard: (state, action) => {
-      state = state.map((item) => {
+      return state.map((item) => {
         if (item.id === action.payload.id) {
-          item.cards = [...item.cards, action.payload.item];
+          return {
+            ...item,
+            cards: [...item.cards, action.payload.item],
+          };
         }
+        return item;
       });
     },
     removeCard: (state, action) => {

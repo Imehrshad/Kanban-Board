@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { addCard } from "../../redux/features/cards/CardsSlice";
@@ -7,6 +7,13 @@ const AddCard = ({ setOpenForm, openForm, item }) => {
   function generateUUID() {
     return crypto.getRandomValues(new Uint32Array(1))[0];
   }
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
   const [inputValue, setInputValue] = useState("");
   const dispatch = useDispatch();
 
@@ -37,9 +44,11 @@ const AddCard = ({ setOpenForm, openForm, item }) => {
       return;
     }
   };
+
   return (
     <div className="w-full flex flex-col gap-2">
       <input
+        ref={inputRef}
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         type="text"

@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
-import { easeIn, easeInOut, motion } from "framer-motion";
+import { easeIn, motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { editCard } from "../../redux/features/cards/CardsSlice";
 
-const EditBox = ({ editIsOpen, setEditIsOpen, editingItemId, listId }) => {
+const EditBox = ({ setEditIsOpen, editingItemId, listId }) => {
   const cards = useSelector((state) => state.card);
   const dispatch = useDispatch();
   const [currentCard, setCurrentCard] = useState("");
@@ -22,8 +22,10 @@ const EditBox = ({ editIsOpen, setEditIsOpen, editingItemId, listId }) => {
   }, [editingItemId]);
 
   useEffect(() => {
-    setInputValue(currentCard.cardTitle);
-  }, [currentCard.cardTitle]);
+    if (currentCard) {
+      setInputValue(currentCard.cardTitle || "");
+    }
+  }, [currentCard]);
 
   const changeTitle = () => {
     dispatch(editCard({ cardId: currentCard.id, cardTitle: inputValue }));
@@ -97,7 +99,7 @@ const EditBox = ({ editIsOpen, setEditIsOpen, editingItemId, listId }) => {
           <button
             className="w-1/2 p-2 bg-buttonSecondary rounded-full text-white hover:scale-90 duration-200 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={changeTitle}
-            disabled={inputValue.length <= 3}
+            disabled={inputValue.length < 3}
           >
             Edit
           </button>

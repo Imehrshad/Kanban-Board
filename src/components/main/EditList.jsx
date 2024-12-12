@@ -8,9 +8,7 @@ import { editList } from "../../redux/features/cards/CardsSlice";
 const EditList = ({ setEditListIsOpen, data }) => {
   const [inputValue, setInputValue] = useState(data.listName);
   const [selectedColor, setSelectedColor] = useState(data.backgroundColor);
-  console.log(
-    "listName : " + inputValue + " " + "backgroundColor : " + selectedColor
-  );
+
   const dispatch = useDispatch();
   const colors = [
     { name: "Red", value: "#EC757D" },

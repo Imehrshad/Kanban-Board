@@ -8,7 +8,7 @@ const EditBox = ({ editIsOpen, setEditIsOpen, editingItemId, listId }) => {
   const cards = useSelector((state) => state.card);
   const dispatch = useDispatch();
   const [currentCard, setCurrentCard] = useState("");
-  const inputValue = useRef();
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     cards.find((item) => {
@@ -22,16 +22,35 @@ const EditBox = ({ editIsOpen, setEditIsOpen, editingItemId, listId }) => {
   }, [editingItemId]);
 
   useEffect(() => {
-    inputValue.current.value = currentCard.cardTitle;
+    setInputValue(currentCard.cardTitle);
   }, [currentCard.cardTitle]);
 
   const changeTitle = () => {
-    dispatch(
-      editCard({ cardId: currentCard.id, cardTitle: inputValue.current.value })
-    );
+    dispatch(editCard({ cardId: currentCard.id, cardTitle: inputValue }));
     setEditIsOpen(false);
   };
 
+  useEffect(() => {
+    document.addEventListener("keydown", escapeHandler);
+
+    return () => {
+      document.removeEventListener("keydown", escapeHandler);
+    };
+  }, []);
+
+  const escapeHandler = (e) => {
+    if (e.key === "Escape") {
+      setEditIsOpen(false);
+    }
+  };
+
+  const onKeyDownHandler = (e) => {
+    if (e.key === "Enter" && inputValue.length > 3) {
+      changeTitle();
+    } else {
+      return;
+    }
+  };
   return (
     <>
       <motion.span
@@ -69,13 +88,16 @@ const EditBox = ({ editIsOpen, setEditIsOpen, editingItemId, listId }) => {
         <div className="w-full p-10 flex justify-center h-full items-center flex-col gap-4">
           <label className="font-semibold">Title : </label>
           <input
-            ref={inputValue}
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
             type="text"
             className="w-full px-2 py-1 rounded-lg bg-secondary dark:bg-darkPrimary focus:outline-buttonSecondary dark:text-white"
+            onKeyDown={onKeyDownHandler}
           />
           <button
-            className="w-1/2 p-2 bg-buttonSecondary rounded-full text-white hover:scale-90 duration-200 transition-transform"
+            className="w-1/2 p-2 bg-buttonSecondary rounded-full text-white hover:scale-90 duration-200 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={changeTitle}
+            disabled={inputValue.length <= 3}
           >
             Edit
           </button>

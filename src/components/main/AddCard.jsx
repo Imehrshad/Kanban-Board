@@ -19,7 +19,7 @@ const AddCard = ({ setOpenForm, openForm, item }) => {
       addCard({
         id: openForm.id,
         item: {
-          id:generateUUID(),
+          id: generateUUID(),
           cardTitle: inputValue,
           priority: "high",
         },
@@ -28,7 +28,15 @@ const AddCard = ({ setOpenForm, openForm, item }) => {
     setInputValue("");
     setOpenForm(false);
   };
-
+  const enterAddCard = (e) => {
+    if (e.key === "Enter" && inputValue.length > 3) {
+      addCardHandler();
+    } else if (e.key === "Escape") {
+      closeHandler();
+    } else {
+      return;
+    }
+  };
   return (
     <div className="w-full flex flex-col gap-2">
       <input
@@ -44,6 +52,7 @@ const AddCard = ({ setOpenForm, openForm, item }) => {
           backgroundColor:
             item.backgroundColor === "none" ? "" : item.secondBackgroundColor,
         }}
+        onKeyDown={enterAddCard}
       />
       <div className="flex justify-start items-center gap-2">
         <button

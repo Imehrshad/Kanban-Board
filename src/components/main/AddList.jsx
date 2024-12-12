@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { easeIn, motion } from "framer-motion";
 import { useDispatch } from "react-redux";
@@ -46,6 +46,29 @@ const AddList = ({ setAddListIsOpne }) => {
     );
     setAddListIsOpne(false);
   };
+  useEffect(() => {
+    document.addEventListener("keydown", escapeHandler);
+
+    return () => {
+      document.removeEventListener("keydown", escapeHandler);
+    };
+  }, []);
+  const escapeHandler = (e) => {
+    if (e.key === "Escape") {
+      setAddListIsOpne(false);
+    }
+  };
+  const onKeyDownHandler = (e) => {
+    if (
+      e.key === "Enter" &&
+      inputValue.length > 3 &&
+      selectedColor.length >= 3
+    ) {
+      addNewList();
+    } else {
+      return;
+    }
+  };
   return (
     <>
       <motion.span
@@ -87,6 +110,7 @@ const AddList = ({ setAddListIsOpne }) => {
             onChange={(e) => setInputValue(e.target.value)}
             type="text"
             className="w-full px-2 py-1 rounded-lg bg-secondary dark:bg-darkPrimary focus:outline-buttonSecondary dark:text-white focus:outline-double focus:outline-2"
+            onKeyDown={onKeyDownHandler}
           />
           <label>Chose color :</label>
           <div className="flex gap-4">
@@ -99,6 +123,7 @@ const AddList = ({ setAddListIsOpne }) => {
                   checked={selectedColor === color.value}
                   onChange={() => handleColorChange(color.value)}
                   className="sr-only"
+                  onKeyDown={onKeyDownHandler}
                 />
 
                 <span
